@@ -1,0 +1,11 @@
+[package]
+name = "kotoba_asobi_api"
+version = "0.1.0"
+authors = ["えてみなる <47494433+eteeeeeerminal@users.noreply.github.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+kotoba_player = {git = "https://github.com/eteeeeeerminal/kotoba_player_rs"}
+actix-web="*"
