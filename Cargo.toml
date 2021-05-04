@@ -9,3 +9,5 @@ edition = "2018"
 [dependencies]
 kotoba_player = {git = "https://github.com/eteeeeeerminal/kotoba_player_rs"}
 actix-web="*"
+serde="*"
+serde_json="*"

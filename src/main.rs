@@ -1,20 +1,27 @@
-use actix_web::{web, get, post, put, delete, App, HttpResponse, HttpServer, Responder};
+use actix_web::{App, HttpRequest, HttpResponse, HttpServer, Responder, delete, get, post, put, web};
 use kotoba_player::KotobaPlayer;
+use serde::{Serialize, Deserialize};
 use std::sync::Mutex;
 
 struct AppState {
     kotoba_player: Mutex<KotobaPlayer>,
 }
 
-#[get("/")]
-async fn get() -> impl Responder {
-    HttpResponse::Ok().body("get ok")
+#[derive(Serialize, Deserialize)]
+struct Text {
+    text: String,
 }
 
-#[get("/parrot")]
-async fn parrot(data: web::Data<AppState>) -> impl Responder {
-    let mut kotoba = data.kotoba_player.lock().unwrap();
-    HttpResponse::Ok().body(kotoba.parrot("そうきちゃんは可愛いです"))
+#[get("/")]
+async fn get() -> impl Responder {
+    HttpResponse::Ok().body("This is Kotoba Asobi API.")
+}
+
+#[post("/parrot")]
+async fn parrot((text, state): (web::Json<Text>, web::Data<AppState>)) -> impl Responder {
+    let mut kotoba = state.kotoba_player.lock().unwrap();
+    let body = Text{text: kotoba.parrot(&text.text)};
+    HttpResponse::Ok().json(body)
 }
 
 #[actix_web::main]
